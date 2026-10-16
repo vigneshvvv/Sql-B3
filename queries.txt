@@ -28,10 +28,108 @@ INSERT INTO customerDetails VALUES
 (3, "Rajesh", "+919192939", "Mumbai")
 
 RENAME customerDetails TO customerDetail
+use sessionEight
+
+CREATE TABLE studentDetails(
+id int PRIMARY KEY,
+student_name VARCHAR(30),
+marks int,
+department VARCHAR(30)
+)
+ 
+INSERT INTO studentDetails VALUES(3, 'Arjun', 380, 'IT'), (1,'Sathish', 430, 'EEE'),
+(2, 'ARUJN', 450, 'ECE'),
+(4, 'Abdul', 350, 'IT')
+
+select * from studentDetails where marks > 400 and department = 'EEE'
+select * from studentDetails where department = 'EEE'
+
+select * from studentDetails  where department = 'EEE' and department = 'ECE'
+
+
+select * from studentDetails where marks > 400 and department in ('EEE', 'ECE')
+
+delete from studentDetails where id = 3
+
+UPDATE studentDetails  set department = 'Mech'  where id =3
+
+select student_name, marks from studentDetails
+
+select * from studentDetails order by marks DESC limit 1
+
+select * from studentDetails order by marks ASC
+
+select * from studentDetails limit 1
+
+-- DECIMAL(5,2) -> 999.99
+-- DECIMAL(6,2) -> 9999.99
+-- DECIMAL(8,2) -> 99999.99
+-- DECIMAL(3,2) -> 10.00
+
+
+CREATE TABLE EmployeeData(
+id int AUTO_INCREMENT PRIMARY KEY,
+emp_name VARCHAR(30) NOT NULL,
+salary DECIMAL(10,2) DEFAULT 20000,
+department VARCHAR(20)
+)
+
+INSERT INTO EmployeeData (emp_name, salary, department) 
+VALUES ("subha", 50000, "Dev")
+
+select * from EmployeeData
+
+INSERT INTO EmployeeData (emp_name, salary, department) 
+VALUES ("Revanth", 40000, "Testing"),
+("Arjun", 60000, "Dev"),
+("Sam", 70000, "Cloud")
+
+INSERT INTO EmployeeData (emp_name, department) values ("Jim", "Admin")
+
+
+select * from EmployeeData
+
+select MAX(salary) from EmployeeData
+
+select  * from EmployeeData where salary = 70000
+
+select * from EmployeeData where salary = (select MAX(salary) from EmployeeData)
 
 
 
+select MIN(salary) from EmployeeData
 
+select SUM(salary) from EmployeeData
+
+select AVG(salary) from EmployeeData
+
+select count(*) as noOfDevEmployee from EmployeeData where department = "DEV";
+
+CREATE TABLE EmpData (
+id int AUTO_INCREMENT PRIMARY KEY,
+emp_name VARCHAR(30) NOT NULL,
+salary DECIMAL(10,2) DEFAULT 20000,
+department VARCHAR(20),
+place VARCHAR(20)
+)
+
+INSERT INTO EmpData (emp_name, salary, department, place) 
+VALUES ("Revanth", 40000, "Testing", "Chennai"),
+("Arjun", 60000, "Dev", "Madurai"),
+("Sam", 70000, "Cloud", "Chennai"),
+("Jim", 30000, "Dev", "Delhi")
+
+select * from EmpData
+
+select place, COUNT(*) as noOfEmployee from EmpData group by place
+
+select department, count(*) as noOfEmpByDep from EmpData group by department 
+HAVING noOfEmpByDep > 1
+
+select department, count(*) as noOfEmpByDep from EmpData group by department 
+order by noOfEmpByDep DESC limit 1
+
+select department, SUM(salary) as totalSalary from EmpData group by department
 
 
 
