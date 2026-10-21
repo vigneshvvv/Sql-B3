@@ -86,7 +86,6 @@ VALUES ("Revanth", 40000, "Testing"),
 
 INSERT INTO EmployeeData (emp_name, department) values ("Jim", "Admin")
 
-
 select * from EmployeeData
 
 select MAX(salary) from EmployeeData
@@ -94,8 +93,6 @@ select MAX(salary) from EmployeeData
 select  * from EmployeeData where salary = 70000
 
 select * from EmployeeData where salary = (select MAX(salary) from EmployeeData)
-
-
 
 select MIN(salary) from EmployeeData
 
@@ -130,6 +127,72 @@ select department, count(*) as noOfEmpByDep from EmpData group by department
 order by noOfEmpByDep DESC limit 1
 
 select department, SUM(salary) as totalSalary from EmpData group by department
+
+
+CREATE TABLE customerInfo(
+customer_id int PRIMARY KEY,
+customer_name VARCHAR(30),
+state VARCHAR(30),
+city VARCHAR(20)
+)
+
+CREATE TABLE productInfo(
+product_id INT PRIMARY KEY,
+product_name VARCHAR(20),
+price DECIMAL(10,2)
+)
+
+
+
+CREATE TABLE orderData(
+order_id INT PRIMARY KEY,
+customer_id int,
+product_id int,
+quantity int,
+FOREIGN KEY (customer_id) REFERENCES customerInfo(customer_id),
+FOREIGN KEY (product_id) REFERENCES productInfo(product_id)
+)
+
+
+INSERT INTO customerInfo VALUES
+(1, "Rahul", "TN", "Chennai"), (2, "Arjun", "TN", "Chennai"),
+(3, "Vignesh", "TN", "Madurai"), (4, "Abdul", "TN", "Trichy")
+
+
+INSERT INTO productInfo VALUES (1001, "Laptop", 40000),
+(1002, "Mobile", 20000),
+(1003, "Keyboard", 1000),
+(1004, "Mouse", 500)
+
+
+insert into orderData VALUES
+(1, 1, 1003,1),
+(2,1, 1002,2),
+(3, 2,1001, 1),
+(4, 3, 1004, 1)
+
+select * from orderData
+
+select c.customer_name, c.city, c.state, p.product_name, p.price, o.quantity from orderData o 
+join customerInfo c ON o.customer_id = c.customer_id
+join productInfo p ON o.product_id = p.product_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
