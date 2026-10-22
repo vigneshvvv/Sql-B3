@@ -142,8 +142,6 @@ product_name VARCHAR(20),
 price DECIMAL(10,2)
 )
 
-
-
 CREATE TABLE orderData(
 order_id INT PRIMARY KEY,
 customer_id int,
@@ -164,7 +162,7 @@ INSERT INTO productInfo VALUES (1001, "Laptop", 40000),
 (1003, "Keyboard", 1000),
 (1004, "Mouse", 500)
 
-
+INSERT INTO productInfo VALUES (1005, "RAM", 10000)
 insert into orderData VALUES
 (1, 1, 1003,1),
 (2,1, 1002,2),
@@ -178,6 +176,23 @@ join customerInfo c ON o.customer_id = c.customer_id
 join productInfo p ON o.product_id = p.product_id
 
 
+select c.customer_name, c.city, c.state, p.product_name, p.price, o.quantity 
+from customerInfo c LEFT JOIN  orderData o ON c.customer_id = o.customer_id
+LEFT JOIN productInfo p on o.product_id = p.product_id
+
+select c.customer_name, c.city, c.state, p.product_name, p.price, o.quantity 
+from customerInfo c RIGHT JOIN 
+orderData o ON c.customer_id = o.customer_id
+RIGHT JOIN productInfo p on o.product_id = p.product_id
+
+select c.customer_name, c.city, c.state, p.product_name, p.price, o.quantity 
+from customerInfo c LEFT JOIN  orderData o ON c.customer_id = o.customer_id
+LEFT JOIN productInfo p on o.product_id = p.product_id
+UNION
+select c.customer_name, c.city, c.state, p.product_name, p.price, o.quantity 
+from customerInfo c RIGHT JOIN 
+orderData o ON c.customer_id = o.customer_id
+RIGHT JOIN productInfo p on o.product_id = p.product_id
 
 
 
