@@ -194,16 +194,68 @@ from customerInfo c RIGHT JOIN
 orderData o ON c.customer_id = o.customer_id
 RIGHT JOIN productInfo p on o.product_id = p.product_id
 
+select c.customer_name, SUM(o.quantity) as totalOrder
+from customerInfo c JOIN orderData o on c.customer_id = o.customer_id 
+group by c.customer_name
 
 
+select c.customer_name, SUM(o.quantity * p.price) as total_price
+from orderData o join customerInfo c ON o.customer_id = c.customer_id
+join productInfo p ON o.product_id = p.product_id
+group by c.customer_name having total_price > 40000
 
 
+select c.customer_name, SUM(o.quantity * p.price) as total_price
+from orderData o join customerInfo c ON o.customer_id = c.customer_id
+join productInfo p ON o.product_id = p.product_id
+group by c.customer_name order by total_price DESC
+
+select c.customer_name, count(o.order_id) as totalOrders 
+from orderData o  join customerInfo c ON o.customer_id = c.customer_id
+group by c.customer_name
+
+select  * from EmployeeData
+
+select * from EmployeeData where salary = (select MAX(salary) from EmployeeData)
+
+select * from EmployeeData where department in (
+select department from EmployeeData group by department HAVING count(*) > 1)
 
 
+select * from EmployeeData where department not in (
+select department from EmployeeData group by department HAVING count(*) > 1)
 
 
+select * from EmployeeData where salary > ANY(
+select salary from EmployeeData  where department = 'DEV')
+
+select * from EmployeeData where salary > ALL(
+select salary from EmployeeData  where department = 'DEV')
 
 
+select * from (
+select department, AVG(salary) as avg_salary from EmployeeData  group by department
+) as temp where avg_salary > 50000
+
+select  emp_name, salary, AVG(salary) OVER() as avg_salary
+from EmployeeData
+
+select emp_name, department,salary, AVG(salary) OVER(PARTITION BY department) as dept
+from EmployeeData
+
+select * from(
+select emp_name, salary, RANK() OVER(partition by department order by salary DESC) as row_num
+from EmployeeData) as t where row_num > 1
+
+select * from(
+select emp_name, salary, RANK() OVER( order by salary DESC) as rn
+from EmployeeData) as t where rn = 3
+ 
+
+
+select * from(
+select emp_name, salary, ROW_NUMBER() OVER( order by salary DESC) as rn
+from EmployeeData) as t where rn = 3
 
 
 
