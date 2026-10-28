@@ -330,6 +330,37 @@ select * from order_value where orderDate >= CURDATE()- INTERVAL 1 MONTH
 
 select * from order_value where orderDate >= CURDATE()- INTERVAL 1 YEAR
 
+select * from EmpData
+
+with averageEmpSalary as (select AVG(salary) as avg_salary from EmpData)
+select * from EmpData where salary > (select avg_salary from averageEmpSalary)
+
+with department_salary as (select department, AVG(salary) as 
+avg_salary from EmpData group by department)
+select * from department_salary where avg_salary > 50000
+
+CREATE INDEX emp_nameIndex on EmpData(emp_name) 
+
+DELIMITER $$
+
+CREATE PROCEDURE empProcdure()
+BEGIN
+	select * from EmpData;
+END $$
+
+DELIMITER ;
+
+call empProcdure()
+
+SHOW procedure status
+
+DROP procedure if exists empProcdure
+
+
+
+
+
+
 
 
 
